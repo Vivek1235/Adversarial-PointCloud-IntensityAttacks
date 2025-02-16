@@ -7,37 +7,46 @@
 - Kushi Vardhan Reddy Pasham, University of Florida
 
 ## 1. Introduction
-This project focuses on securing point cloud-based object detection systems, particularly those used in autonomous vehicles. The research investigates the vulnerabilities of these systems to intensity-based adversarial attacks, where the intensity values of points in 3D point clouds are manipulated to mislead detection models.
+This project investigates the vulnerabilities of point cloud-based object detection systems, particularly in autonomous vehicles, against intensity-based adversarial attacks. Unlike traditional adversarial methods that modify the spatial components of point clouds, we focus on manipulating intensity values to mislead object detection models such as PointRCNN.
 
 ## 2. Background and Related Work
 ### Point Cloud-based Object Detection:
-- Point cloud-based object detection is essential for various applications like autonomous vehicles, drones, virtual reality, and mapping.
-- Traditional methods manipulate spatial components of point clouds to create adversarial examples. This research explores novel intensity-based manipulations.
+- Utilized in autonomous vehicles, drones, virtual reality, and mapping.
+- Traditional attacks alter spatial coordinates (x, y, z) to generate adversarial examples.
+- Our research explores modifying intensity values instead of geometric structures.
 
 ### Adversarial Attacks:
-- Adversarial attacks are designed to cause incorrect model outputs by manipulating input data. In point cloud-based systems, these can cause models to misinterpret or overlook critical objects.
+- Aim to mislead detection models by altering input data.
+- Can cause models to misinterpret, misclassify, or completely ignore critical objects.
+- Our method introduces intensity-based perturbations and evaluates their effectiveness.
 
 ## 3. Methodology
 ### Threat Model
-- The research identifies vulnerabilities in LiDAR data analysis for autonomous vehicles. It assumes attackers can alter point cloud data and possess black-box access to detection models.
+- Assumes attackers can modify point cloud data and have black-box access to the detection model.
+- Focuses on intensity manipulations that do not change spatial structures, making attacks harder to detect.
 
 ### Data Preparation
-- The KITTI dataset, containing LiDAR-generated 3D point clouds, is used. Each data point includes spatial coordinates (x, y, z) and an intensity value.
+- Uses the KITTI dataset, containing LiDAR-generated 3D point clouds.
+- Each data point consists of (x, y, z) coordinates and intensity values.
 
-### Initial Model Training
-- The PointRCNN model, tailored for 3D object detection, is trained using the KITTI dataset. It segments the point cloud into foreground and background and refines object proposals based on spatial and intensity attributes.
+### Model Training
+- The PointRCNN model is trained on KITTI dataset for 3D object detection.
+- Segments the point cloud into foreground and background and refines object proposals.
 
 ### Object Selection using Open3D
-- Open3D is used to identify and isolate target objects within the point clouds. This enables analysis of how PointRCNN responds to localized adversarial changes.
+- Open3D is used to identify and isolate objects like cars, cyclists, and pedestrians.
 
 ### Intensity Manipulation and Evaluation
-- The Iterative Gradient Method manipulates the intensity values of selected objects to create adversarial examples. The modified point cloud is re-evaluated using the PointRCNN model to assess the impact on confidence levels.
+- The Iterative Gradient Method perturbs intensity values to create adversarial examples.
+- The modified point cloud is evaluated using PointRCNN to measure changes in confidence scores.
 
 ## 4. Experimental Results
-- Detection accuracy varies across different distances and iterations. For example, accuracy for cyclists, pedestrians, and cars decreases with distance. Despite iterative attacks, the model's confidence remains relatively stable.
+- Detection accuracy varies across different distances and iterations.
+- Accuracy for cyclists, pedestrians, and cars decreases with increased perturbation and distance. Despite iterative adversarial attacks, PointRCNN shows robustness to intensity-based perturbations.
 
 ## 5. Analysis and Discussion
-- Intensity-based attacks had minimal impact on the model's confidence scores and classification outcomes. The research highlights the resilience of deep neural networks against such attacks and suggests future work to incorporate both spatial and intensity perturbations for more effective adversarial evaluations.
+- Intensity-based attacks had limited impact, demonstrating the robustness of deep learning models. Objects farther from the sensor showed higher vulnerability to misclassification.
+- Future research should investigate combined spatial and intensity perturbations to develop stronger adversarial attacks.
 
 ## References
 1. Yulong Cao et al. Adversarial sensor attack on lidar-based perception in autonomous driving. 2019.
@@ -52,13 +61,12 @@ This project focuses on securing point cloud-based object detection systems, par
 10. Hengshuang Zhao et al. Pointweb: Enhancing local neighborhood features for point cloud processing. 2019.
 11. Yin Zhou et al. Voxelnet: End-to-end learning for point cloud based 3d object detection. 2018.
 
-## Dependencies
+## Requirements
 - Python 3.8+
 - Open3D
 - PyTorch
 - NumPy
 - KITTI Dataset
-- Other dependencies specified in `requirements.txt`
 
 ## Acknowledgements
 We thank the University of Florida for providing resources and support for this research.
